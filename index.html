@@ -433,6 +433,63 @@
 </head>
 <body>
 
+    <!-- Welcome Animation – zero-dependency, self-destructing -->
+<script type="text/babel">
+  (function(){
+    if (sessionStorage.getItem('welcomeSeen')) {
+      document.getElementById('welcome-root')?.remove();
+      return;
+    }
+    sessionStorage.setItem('welcomeSeen', 'true');
+
+    function WelcomeAnimation(){
+      React.useEffect(()=>{
+        const t = setTimeout(()=>{
+          const r = document.getElementById('welcome-root');
+          ReactDOM.unmountComponentAtNode(r);
+          r?.remove();
+        }, 2500);          // 2 s anim + 0.5 s fade-out
+        return ()=>clearTimeout(t);
+      },[]);
+
+      return (
+        <div style={{
+          position:'fixed',inset:0,zIndex:9999,
+          display:'flex',alignItems:'center',justifyContent:'center',
+          background:'rgba(0,0,0,.85)',animation:'fadeIn .5s ease'
+        }}>
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#6366F1"/>
+                <stop offset="100%" stopColor="#EC4899"/>
+              </linearGradient>
+            </defs>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="url(#g)" strokeWidth="8"
+              strokeDasharray="314" strokeDashoffset="314"
+              style={{animation:'drawCircle 1s ease .2s forwards'}}/>
+            <path d="M40 40v40M60 30v60M80 40v40" stroke="url(#g)" strokeWidth="8"
+              strokeLinecap="round" strokeDasharray="50" strokeDashoffset="50"
+              style={{animation:'drawLines 1s ease .7s forwards'}}/>
+          </svg>
+          <div style={{
+            position:'absolute',top:'calc(50% + 80px)',
+            font:'bold 24px/1 Arial,sans-serif',color:'#fff',
+            animation:'fadeUp 1s ease .8s forwards',opacity:0
+          }}>Welcome to Loop</div>
+          <div style={{
+            position:'absolute',top:'calc(50% + 115px)',
+            font:'16px/1 Arial,sans-serif',color:'rgba(255,255,255,.8)',
+            animation:'fadeUp 1s ease 1s forwards',opacity:0
+          }}>The future of mobile music production</div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<WelcomeAnimation/>, document.getElementById('welcome-root'));
+  })();
+</script>
+
 <!-- ================= NAVIGATION ================= -->
 <header>
     <nav>
