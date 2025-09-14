@@ -435,12 +435,6 @@
 
     <!-- Welcome Animation – zero-dependency, self-destructing -->
 <script type="text/babel">
-  (function(){
-    if (sessionStorage.getItem('welcomeSeen')) {
-      document.getElementById('welcome-root')?.remove();
-      return;
-    }
-    sessionStorage.setItem('welcomeSeen', 'true');
 
     function WelcomeAnimation(){
       React.useEffect(()=>{
