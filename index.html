@@ -433,56 +433,73 @@
 </head>
 <body>
 
-    <!-- Welcome Animation – zero-dependency, self-destructing -->
-<script type="text/babel">
+<body>
+  <!-- 1.  mount point must exist BEFORE React runs -->
+  <div id="welcome-root"></div>
 
-    function WelcomeAnimation(){
-      React.useEffect(()=>{
-        const t = setTimeout(()=>{
-          const r = document.getElementById('welcome-root');
-          ReactDOM.unmountComponentAtNode(r);
-          r?.remove();
-        }, 2500);          // 2 s anim + 0.5 s fade-out
-        return ()=>clearTimeout(t);
-      },[]);
+  <!-- 2.  load React, ReactDOM, Babel (order matters) -->
+  <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-      return (
-        <div style={{
-          position:'fixed',inset:0,zIndex:9999,
-          display:'flex',alignItems:'center',justifyContent:'center',
-          background:'rgba(0,0,0,.85)',animation:'fadeIn .5s ease'
-        }}>
-          <svg width="120" height="120" viewBox="0 0 120 120">
-            <defs>
-              <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#6366F1"/>
-                <stop offset="100%" stopColor="#EC4899"/>
-              </linearGradient>
-            </defs>
-            <circle cx="60" cy="60" r="50" fill="none" stroke="url(#g)" strokeWidth="8"
-              strokeDasharray="314" strokeDashoffset="314"
-              style={{animation:'drawCircle 1s ease .2s forwards'}}/>
-            <path d="M40 40v40M60 30v60M80 40v40" stroke="url(#g)" strokeWidth="8"
-              strokeLinecap="round" strokeDasharray="50" strokeDashoffset="50"
-              style={{animation:'drawLines 1s ease .7s forwards'}}/>
-          </svg>
+  <!-- 3.  the component (with guard so it only runs once) -->
+  <script type="text/babel">
+    (function(){
+      if (sessionStorage.getItem('welcomeSeen')){
+        document.getElementById('welcome-root')?.remove();
+        return;
+      }
+      sessionStorage.setItem('welcomeSeen','true');
+
+      function WelcomeAnimation(){
+        React.useEffect(()=>{
+          setTimeout(()=>{
+            const r=document.getElementById('welcome-root');
+            ReactDOM.unmountComponentAtNode(r);
+            r.remove();
+          },2500);
+        },[]);
+
+        return (
           <div style={{
-            position:'absolute',top:'calc(50% + 80px)',
-            font:'bold 24px/1 Arial,sans-serif',color:'#fff',
-            animation:'fadeUp 1s ease .8s forwards',opacity:0
-          }}>Welcome to Loop</div>
-          <div style={{
-            position:'absolute',top:'calc(50% + 115px)',
-            font:'16px/1 Arial,sans-serif',color:'rgba(255,255,255,.8)',
-            animation:'fadeUp 1s ease 1s forwards',opacity:0
-          }}>The future of mobile music production</div>
-        </div>
-      );
-    }
+            position:'fixed',inset:0,zIndex:9999,
+            display:'flex',alignItems:'center',justifyContent:'center',
+            background:'rgba(0,0,0,.85)',animation:'fadeIn .5s'
+          }}>
+            <svg width="120" height="120" viewBox="0 0 120 120">
+              <defs>
+                <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#6366F1"/>
+                  <stop offset="100%" stopColor="#EC4899"/>
+                </linearGradient>
+              </defs>
+              <circle cx="60" cy="60" r="50" fill="none" stroke="url(#g)" strokeWidth="8"
+                strokeDasharray="314" strokeDashoffset="314"
+                style={{animation:'drawCircle 1s .2s forwards'}}/>
+              <path d="M40 40v40M60 30v60M80 40v40" stroke="url(#g)" strokeWidth="8"
+                strokeLinecap="round" strokeDasharray="50" strokeDashoffset="50"
+                style={{animation:'drawLines 1s .7s forwards'}}/>
+            </svg>
+            <div style={{position:'absolute',top:'calc(50% + 80px)',font:'bold 24px/1 Arial',color:'#fff',animation:'fadeUp 1s .8s forwards',opacity:0}}>Welcome to Loop</div>
+            <div style={{position:'absolute',top:'calc(50% + 115px)',font:'16px/1 Arial',color:'rgba(255,255,255,.8)',animation:'fadeUp 1s 1s forwards',opacity:0}}>The future of mobile music production</div>
+          </div>
+        );
+      }
 
-    ReactDOM.render(<WelcomeAnimation/>, document.getElementById('welcome-root'));
-  })();
-</script>
+      ReactDOM.render(<WelcomeAnimation/>,document.getElementById('welcome-root'));
+    })();
+  </script>
+
+  <!-- 4.  required keyframes (put once in the same file or in your CSS file) -->
+  <style>
+    @keyframes fadeIn{0%{opacity:0}100%{opacity:1}}
+    @keyframes fadeUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+    @keyframes drawCircle{to{stroke-dashoffset:0}}
+    @keyframes drawLines{to{stroke-dashoffset:0}}
+  </style>
+
+  <!-- 5.  rest of your existing markup -->
+  <header>...</header>
 
 <!-- ================= NAVIGATION ================= -->
 <header>
