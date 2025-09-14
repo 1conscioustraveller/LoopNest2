@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoopNest – The Cozy Corner for Bedroom Producers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ---------- BASE STYLES ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font: inherit;
+        }
+        
+        /* ---------- NAVIGATION ---------- */
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            padding: 0.75rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: auto;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .brand-icon {
+            font-size: 1.8rem;
+            color: #6366f1;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.25rem;
+        }
+        
+        nav a {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: #fff;
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #ec4899);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        nav a:hover::after {
+            width: 80%;
+        }
+        
+        /* ---------- MAIN CONTENT ---------- */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* ---------- HERO SECTION ---------- */
+        .hero {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(236, 72, 153, 0.1) 100%);
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #6366f1, #ec4899);
+            color: #fff;
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        }
+        
+        /* ---------- REVIEWS SECTION ---------- */
+        .reviews-section {
+            margin: 3rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+        
+        .reviews {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        
+        .review-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+        
+        .review-card strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #6366f1;
+            font-size: 1.1rem;
+        }
+        
+        /* ---------- SOCIAL LINKS ---------- */
+        .social {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        
+        .social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 50%;
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            color: #f8fafc;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .social a:hover {
+            background: linear-gradient(90deg, #6366f1, #ec4899);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* ---------- CONTENT PAGES ---------- */
+        .content-page {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 16px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .content-page h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .content-page h2 i {
+            color: #6366f1;
+        }
+        
+        .content-page p {
+            color: #cbd5e1;
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+        }
+        
+        .content-page article {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .content-page article:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .content-page h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+            color: #8b5cf6;
+        }
+        
+        /* ---------- SEQUENCER ---------- */
+        .sequencer {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .sequencer-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .sequencer-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            background: rgba(99, 102, 241, 0.2);
+            color: #f8fafc;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .sequencer-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+        
+        .sequencer-btn.play {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+        }
+        
+        .sequencer-grid {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            gap: 4px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step {
+            height: 40px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .step.active {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+        }
+        
+        .channels {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .channel {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .channel h4 {
+            margin-bottom: 0.75rem;
+            color: #8b5cf6;
+        }
+        
+        /* ---------- FOOTER ---------- */
+        footer {
+            background: rgba(15, 23, 42, 0.9);
+            color: #cbd5e1;
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 3rem;
+        }
+        
+        /* ---------- RESPONSIVE DESIGN ---------- */
+        @media (max-width: 900px) {
+            nav ul {
+                gap: 0.5rem;
+            }
+            
+            nav a {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.6rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero {
+                padding: 2.5rem 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .content-page {
+                padding: 1.5rem;
+            }
+            
+            .channels {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            nav ul {
+                justify-content: center;
+            }
+            
+            .reviews {
+                grid-template-columns: 1fr;
+            }
+            
+            .sequencer-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ================= NAVIGATION ================= -->
+<header>
+    <nav>
+        <div class="brand">
+            <i class="fas fa-music brand-icon"></i>
+            <span>LoopNest</span>
+        </div>
+        <ul>
+            <li><a href="#" onclick="showPage('home')">Home</a></li>
+            <li><a href="#" onclick="showPage('about')">About</a></li>
+            <li><a href="#" onclick="showPage('advice')">Advice</a></li>
+            <li><a href="#" onclick="showPage('sequencer')">Sequencer</a></li>
+            <li><a href="#" onclick="showPage('dj')">DJ Studio</a></li>
+            <li><a href="#" onclick="showPage('producer')">Producer App</a></li>
+            <li><a href="#" onclick="showPage('lyrics')">Lyrics</a></li>
+            <li><a href="#" onclick="showPage('stories')">Stories</a></li>
+            <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- ================= MAIN CONTENT ================= -->
+<main>
+
+    <!-- HOME -->
+    <section id="home" class="page active">
+        <div class="hero">
+            <h1>Your sound, your space, your story.</h1>
+            <p>LoopNest is the tiny virtual studio built for beat-makers who hate complexity and love fast ideas. No log-ins, no subscriptions—just open a tab and start looping.</p>
+            <a href="#" class="cta-btn" onclick="showPage('sequencer')">Try the Step Sequencer</a>
+        </div>
+
+        <div class="reviews-section">
+            <h2 class="section-title">What producers are saying</h2>
+            <div class="reviews">
+                <div class="review-card">
+                    <strong>@luna_beats</strong>
+                    “Finally a sequencer that doesn't crash my old laptop. Exported my loop in 30 seconds flat.”
+                </div>
+                <div class="review-card">
+                    <strong>K-90</strong>
+                    “I sketch all my grime ideas here before touching Ableton. Zero bloat, pure flow.”
+                </div>
+                <div class="review-card">
+                    <strong>tiny808</strong>
+                    “The built-in advice board saved me from buying gear I didn't need. Community > marketing.”
+                </div>
+            </div>
+        </div>
+
+        <div class="social">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="page">
+        <div class="content-page">
+            <h2><i class="fas fa-info-circle"></i> About LoopNest</h2>
+            <p>LoopNest started in a Sheffield bedroom in 2021 after a broken audio interface left the founder with nothing but stock drums and a web browser. The goal: make the fastest, lightest sketchpad for rhythm ideas. Everything else—log-ins, paywalls, 3-gigabyte sample packs—got stripped away.</p>
+            <p>We stay independent, funded by small donations and sticker sales. No investors, no data mining, no dark patterns. Just loops.</p>
+        </div>
+    </section>
+
+    <!-- ADVICE -->
+    <section id="advice" class="page">
+        <div class="content-page">
+            <h2><i class="fas fa-lightbulb"></i> Advice from Peers</h2>
+            <article>
+                <h3>Stop overthinking your mix—finish the loop.</h3>
+                <p>User @grayfield: "I used to EQ hi-hats for three hours. Now I force myself to bounce at the 16-bar mark. Ear fatigue is real; momentum beats perfection."</p>
+            </article>
+            <article>
+                <h3>One synth, one vibe.</h3>
+                <p>User @sasha_portable: "Pick a single soft-synth and make 30 presets. Limitations breed identity. Listeners don't care about your plugin folder."</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- SEQUENCER -->
+    <section id="sequencer" class="page">
+        <div class="content-page">
+            <h2><i class="fas fa-sliders-h"></i> Step Sequencer</h2>
+            <p>16-step grid, 8 channels, export to WAV. Works offline once loaded. Keyboard shortcuts: spacebar = play, 1-8 = mute/solo channels.</p>
+            
+            <div class="sequencer">
+                <div class="sequencer-controls">
+                    <button class="sequencer-btn play"><i class="fas fa-play"></i> Play</button>
+                    <button class="sequencer-btn"><i class="fas fa-stop"></i> Stop</button>
+                    <button class="sequencer-btn"><i class="fas fa-redo"></i> Reset</button>
+                    <button class="sequencer-btn"><i class="fas fa-download"></i> Export WAV</button>
+                </div>
+                
+                <h4>Kick Drum</h4>
+                <div class="sequencer-grid">
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                </div>
+                
+                <h4>Snare Drum</h4>
+                <div class="sequencer-grid">
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                </div>
+                
+                <h4>Hi-Hat</h4>
+                <div class="sequencer-grid">
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                    <div class="step active"></div>
+                    <div class="step"></div>
+                </div>
+                
+                <div class="channels">
+                    <div class="channel">
+                        <h4>Channel 1: Kick</h4>
+                        <p>Volume: 80%</p>
+                        <p>Pan: Center</p>
+                    </div>
+                    <div class="channel">
+                        <h4>Channel 2: Snare</h4>
+                        <p>Volume: 70%</p>
+                        <p>Pan: Center</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DJ STUDIO APP -->
+    <section id="dj" class="page">
+        <div class="content-page">
+            <h2><i class="fas fa-compact-disc"></i> DJ Studio App</h2>
+            <p>Two-deck browser mixer with automatic BPM detection, filter knobs and a tiny samplers rack. Drag any local file and start blending. No crate digging required.</p>
+            
+            <div style="background: rgba(15, 23, 42, 0.7); padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div style="background: rgba(30, 41, 59, 0.7); padding: 1rem; border-radius: 8px;">
+                        <h4>Deck A</h4>
+                        <p>Track: Selected</p>
+                        <p>BPM: 120</p>
+                        <p>Time: 3:45</p>
+                    </div>
+                    <div style="background: rgba(30, 41, 59, 0.7); padding: 1rem; border-radius: 8px;">
+                        <h4>Deck B</h4>
+                        <p>Track: Selected</p>
+                        <p>BPM: 122</p>
+                        <p>Time: 4:20</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; background: rgba(30, 41, 59, 0.7); padding: 1rem; border-radius: 8px;">
+                    <h4>Mixer</h4>
+                    <p>Crossfader: Center</p>
+                    <p>EQ: Low: 80%, Mid: 70%, High: 75%</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCER APP -->
+    <section id="producer" class="page">
+        <div class="content-page">
+            <h2><i class="fas fa-record-vinyl"></i> Music Producer App</h2>
+            <p>Piano-roll, automation lanes, vintage-style step modulation and one-knob "glue" bus compressor. Export stems or Ableton project file. macOS/Win/Linux builds available.</p>
+            
+            <div style="background: rgba(15, 23, 42, 0.7); padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div style="background: rgba(30, 41, 59, 0.7); padding: 1rem; border-radius: 8px;">
+                        <h4>Project Details</h4>
+                        <p>BPM: 128</p>
+                        <p>Key: C minor</p>
+                        <p>Time Signature: 4/4</p>
+                    </div>
+                    <div style="background: rgba(30, 41, 59, 0.7); padding: 1rem; border-radius: 8px;">
+                        <h4>Export Options</h4>
+                        <p>WAV, MP3, FLAC</p>
+                        <p>Ableton Project File</p>
+                        <p>Stems (ZIP)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LYRICS -->
+    <section id="lyrics" class="page">
+        <div class="content-page">
+            <h2><i class="fas fa-pen-fancy"></i> Lyrics Writing Room</h2>
+            <p>Distraction-free pad with built-in rhyme suggester and syllable counter. Toggle "rap mode" to highlight multis or "pop mode" for vowel matching. Saves to browser storage automatically.</p>
+            
+            <div style="background: rgba(15, 23, 42, 0.7); padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                <textarea style="width: 100%; min-height: 200px; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 1rem; color: #f8fafc; font-family: inherit;" placeholder="Start writing your lyrics here..."></textarea>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="sequencer-btn"><i class="fas fa-magic"></i> Rhyme Suggest</button>
+                    <button class="sequencer-btn"><i class="fas fa-calculator"></i> Count Syllables</button>
+                    <button class="sequencer-btn"><i class="fas fa-save"></i> Save</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUCCESS STORIES -->
+    <section id="stories" class="page">
+        <div class="content-page">
+            <h2><i class="fas fa-trophy"></i> Success Stories</h2>
+            <article>
+                <h3>From LoopNest to Netflix trailer</h3>
+                <p>Producer "Hiber-Nate" sketched a cinematic trap loop on LoopNest, imported it into Logic, added strings, and landed a sync placement for a 2024 sci-fi series trailer. His advice: "Never delete your 8-bar sketches."</p>
+            </article>
+            <article>
+                <h3>Platinum remix born in a lunch break</h3>
+                <p>Tokyo-based @itgirl remixed a K-pop vocal using only the Step Sequencer during her lunch hour. The demo hit Twitter; two weeks later the official remix went platinum in Korea.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="page">
+        <div class="content-page">
+            <h2><i class="fas fa-envelope"></i> Contact Us</h2>
+            <p>Email: hello@loopnest.app</p>
+            <p>Post: LoopNest, P.O. Box 382, Sheffield, S1 4DU, UK</p>
+            <p>For bugs: open an issue on our public GitHub repo (link in footer).</p>
+            
+            <div style="background: rgba(15, 23, 42, 0.7); padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem;">
+                <h4>Send us a message</h4>
+                <form style="display: grid; gap: 1rem; margin-top: 1rem;">
+                    <input type="text" placeholder="Your Name" style="padding: 0.75rem; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #f8fafc;">
+                    <input type="email" placeholder="Your Email" style="padding: 0.75rem; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #f8fafc;">
+                    <textarea placeholder="Your Message" style="padding: 0.75rem; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #f8fafc; min-height: 150px;"></textarea>
+                    <button class="cta-btn" style="width: fit-content;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    &copy; <span id="year"></span> LoopNest – open-source beats forever.
+</footer>
+
+<!-- ================= JS NAV HELPER ================= -->
+<script>
+    function showPage(id){
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+    
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Add interactivity to the sequencer
+    document.addEventListener('DOMContentLoaded', function() {
+        const steps = document.querySelectorAll('.step');
+        steps.forEach(step => {
+            step.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
